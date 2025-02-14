@@ -1,0 +1,45 @@
+import sys
+
+import requests
+from PyQt6 import vic
+from PyQt6.QtGui import QPixmap
+from PyQt6.QtWidgets import QApplication, QMainWindow
+
+
+class MyWidget(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        uic.loadUi('classwork.ui', self)
+        self.map_zoom = 5
+        self.map_ll = [37.620431, 55.753789]
+        self.delta = 0,1
+        self.render_map()
+    def render_map(self)
+
+    def render_map(self):
+        p = {
+            'll': f"{self.map_ll[0]},{self.map_ll[1]}",
+            "l": 'map',
+            "z": self.map_zoom,
+        }
+        response = requests.get('https://static-maps.yandex.ru/1.x/', params=p)
+        f = open('pix.png', "wb")
+        f.write(response.content)
+        f.close()
+        
+        pixmap = QPixmap()
+        pixmap.load('pix.png')
+        self.label.setPixmap(pixmap)
+    
+    
+    
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    ex = MeWidget()
+    ex.show()
+    sys.exit(app.exec())
+
+
+
+
+
